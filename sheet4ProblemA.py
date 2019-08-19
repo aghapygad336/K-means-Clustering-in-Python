@@ -26,7 +26,7 @@ centroids=kmeans.cluster_centers_
 print("Ecludian")
 test = euclidean_distances(X, X)
 print(test)
-print("Moheto")
+print("Manhattan")
 
 
 
