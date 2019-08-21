@@ -8,6 +8,11 @@ import matplotlib.pyplot as plt
 import math  
 import numpy as np
 
+def scale(X, x_min, x_max):
+    nom = (X-X.min(axis=0))*(x_max-x_min)
+    denom = X.max(axis=0) - X.min(axis=0)
+    denom[denom==0] = 1
+    return x_min + nom/denom
 def manhattan_distance(pt1, pt2, pt3):
     distance = 0
   
@@ -57,6 +62,8 @@ def own_kmeans(data, k):
             c = new_centroids
             
 
+
+
 x =[0.5,2.2,3.9,2.1,0.5,0.8,2.7,2.5,2.8,0.1]
 y =[4.5,1.5,3.5,1.9,3.2,4.3,1.1,3.5,3.9,4.1]
 z =[2.5,0.1,1.1,4.9,1.2,2.6,3.1,2.8,1.5,2.9]
@@ -85,8 +92,12 @@ print(manhattan_distance(x,y,z))
 data = np.array([[0.5,4.5,2.5], [2.2,1.5,0.1], [3.9,3.5,1.1],[2.1,1.9,4.9],[0.5,3.2,1.2],[0.8,4.3,2.6],[2.7,1.1,3.1],[2.5,3.5,2.8],[2.8,3.9,1.5],[0.1,4.1,2.9]])#choose your data
 centroids, target = own_kmeans(data, 3)
 plt.show()
+print("norlmaization without SKlearn")
 
 
+
+X_scaled = scale(data, 0, 1)
+print(X_scaled)
 
 
 
