@@ -7,12 +7,10 @@ Created on Mon Aug 19 23:54:14 2019
 import matplotlib.pyplot as plt
 import math  
 import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
-def scale(X, x_min, x_max):
-    nom = (X-X.min(axis=0))*(x_max-x_min)
-    denom = X.max(axis=0) - X.min(axis=0)
-    denom[denom==0] = 1
-    return x_min + nom/denom
+
 def manhattan_distance(pt1, pt2, pt3):
     distance = 0
   
@@ -20,6 +18,14 @@ def manhattan_distance(pt1, pt2, pt3):
         distance += abs(pt1[i]- pt2[i] - pt3[i])
 
     return distance
+
+
+
+def scale(X, x_min, x_max):
+    nom = (X-X.min(axis=0))*(x_max-x_min)
+    denom = X.max(axis=0) - X.min(axis=0)
+    denom[denom==0] = 1
+    return x_min + nom/denom
 
 
 
@@ -40,6 +46,8 @@ def closest_centroid(points, centroids):
     return np.argmin(distances, axis=0)
 
 def move_centroids(points, closest, centroids):
+    split3d(points)
+
     #returns new centroids
     print("move")
 
@@ -61,21 +69,58 @@ def own_kmeans(data, k):
         else:
             c = new_centroids
             
+            
+            
+def split3d(dataIn):       
+    x, y, z = zip(*dataIn)
 
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(x,y,z)
+    plt.show()   
+            
+            
+            
+            
 
-
-x =[0.5,2.2,3.9,2.1,0.5,0.8,2.7,2.5,2.8,0.1]
-y =[4.5,1.5,3.5,1.9,3.2,4.3,1.1,3.5,3.9,4.1]
-z =[2.5,0.1,1.1,4.9,1.2,2.6,3.1,2.8,1.5,2.9]
-print ('Print 3D')
 
     #Assuming correct input to the function where the lengths of two features are the same
+data = np.array([[0.5,4.5,2.5], [2.2,1.5,0.1], [3.9,3.5,1.1],[2.1,1.9,4.9],[0.5,3.2,1.2],[0.8,4.3,2.6],[2.7,1.1,3.1],[2.5,3.5,2.8],[2.8,3.9,1.5],[0.1,4.1,2.9]])#choose your data
+split3d(data)
+centroids, target = own_kmeans(data, 3)
+print("show Target")
+print("norlmaization without SKlearn")
+
+
+
+X_scaled = scale(data, 0, 1)
+split3d(X_scaled)
+
+print(X_scaled)
+
+centroids, target = own_kmeans(X_scaled, 3)
+xS, yS, zS = zip(*X_scaled)
+print("manhattan_distance")
+
+print(manhattan_distance(xS,yS,zS))
+
+
+print("3D")
+
+
+
+
+
+
+
 
 
 
 print("Eculdian Distance")
 for i in range(10):
     squared_distance = 0 
+    x, y, z = zip(*data)
+
     #xD=x[i]–y[i]-z[i]
     aa=x[i]
     bb=y[i]
@@ -89,15 +134,7 @@ print("Manhattan")
 print(manhattan_distance(x,y,z))
 
 
-data = np.array([[0.5,4.5,2.5], [2.2,1.5,0.1], [3.9,3.5,1.1],[2.1,1.9,4.9],[0.5,3.2,1.2],[0.8,4.3,2.6],[2.7,1.1,3.1],[2.5,3.5,2.8],[2.8,3.9,1.5],[0.1,4.1,2.9]])#choose your data
-centroids, target = own_kmeans(data, 3)
-plt.show()
-print("norlmaization without SKlearn")
 
-
-
-X_scaled = scale(data, 0, 1)
-print(X_scaled)
 
 
 
